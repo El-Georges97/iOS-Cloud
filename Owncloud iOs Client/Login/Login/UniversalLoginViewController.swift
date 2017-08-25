@@ -889,10 +889,10 @@ connection_declined  Connection declined by user
 // MARK: 'private' methods
     func validateCredentialsAndStoreAccount(credentials: OCCredentialsDto) {
         //get list of files in root to check session validty, if ok store new account
-        let urlToGetRootFiles = URL (string: UtilsUrls.getFullRemoteServerPathWithWebDav(byNormalizedUrl: validatedServerURL) )
+        let urlToGetRootFiles = NSURL (string: UtilsUrls.getFullRemoteServerPathWithWebDav(byNormalizedUrl: validatedServerURL) )
         
         DetectListOfFiles().getListOfFiles(url: urlToGetRootFiles!, credentials: credentials,
-                                           withCompletion: { (_ errorHttp: NSInteger?,_ error: Error?, _ listOfFileDtos: [FileDto]? ) in
+                                           withCompletion: { (_ errorHttp: NSInteger?,_ error: NSError?, _ listOfFileDtos: [FileDto]? ) in
                                             
                                             self.setNetworkActivityIndicator(status: false)
                                             let app: AppDelegate = (UIApplication.shared.delegate as! AppDelegate)
@@ -924,7 +924,7 @@ connection_declined  Connection declined by user
                                                         ManageFiles().storeListOfFiles(listOfFileDtos!, forFileId: 0, andUser: self.user!)
                                                         
                                                         app.generateAppInterface(fromLoginScreen: true)
-
+                                                        
                                                     } else {
                                                         self.showURLError(NSLocalizedString("error_could_not_add_account", comment: ""))
                                                     }
@@ -934,7 +934,7 @@ connection_declined  Connection declined by user
                                                     
                                                     self.closeLoginView()
                                                 }
-                                              
+
                                                 
                                             } else {
                                                 if errorHttp == Int(kOCErrorServerUnauthorized) {
@@ -953,9 +953,9 @@ connection_declined  Connection declined by user
                                                 }
                                             }
                                             
-                                        })
-                                            
-        }
+        })
+        
+    }
     
     override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
