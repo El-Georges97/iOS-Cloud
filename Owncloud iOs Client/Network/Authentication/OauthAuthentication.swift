@@ -18,11 +18,11 @@
 import Foundation
 
 
-class OauthAuthentication: NSObject, URLSessionDelegate, URLSessionTaskDelegate {
+@objc class OauthAuthentication: NSObject, URLSessionDelegate, URLSessionTaskDelegate {
     
 // MARK : get authData by authcode
 
-    func accessTokenAuthRequest(_ url: URL, authCode: String, withCompletion completion: @escaping (_ data: Data?,_ httpResponse: HTTPURLResponse?, _ error: Error?) -> Void) {
+@objc func accessTokenAuthRequest(_ url: URL, authCode: String, withCompletion completion: @escaping (_ data: Data?,_ httpResponse: HTTPURLResponse?, _ error: Error?) -> Void) {
      
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -59,7 +59,7 @@ class OauthAuthentication: NSObject, URLSessionDelegate, URLSessionTaskDelegate 
     }
     
     
-    func getAuthDataBy(url: URL, authCode: String, withCompletion completion: @escaping (_ userCredDto: OCCredentialsDto? ,_ error: String?) -> Void)  {
+@objc    func getAuthDataBy(url: URL, authCode: String, withCompletion completion: @escaping (_ userCredDto: OCCredentialsDto? ,_ error: String?) -> Void)  {
         
         self.accessTokenAuthRequest(url, authCode: authCode, withCompletion: { (data:Data?, httpResponse:HTTPURLResponse?, error:Error?) in
             
@@ -99,7 +99,7 @@ class OauthAuthentication: NSObject, URLSessionDelegate, URLSessionTaskDelegate 
     }
     
     
-    func oauthUrlTogetAuthCodeWith (serverPath : String) -> URL {
+@objc    func oauthUrlTogetAuthCodeWith (serverPath : String) -> URL {
         
         let oauth2RedirectUri = k_oauth2_redirect_uri
         let oauth2RedirectUriEncoded = oauth2RedirectUri.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed)
@@ -119,7 +119,7 @@ class OauthAuthentication: NSObject, URLSessionDelegate, URLSessionTaskDelegate 
         
     }
 
-    func oauthUrlToGetTokenWith(serverPath : String) -> URL {
+@objc    func oauthUrlToGetTokenWith(serverPath : String) -> URL {
     
         var serverPathUrl = URL(string: serverPath)
         serverPathUrl = serverPathUrl?.appendingPathComponent(k_oauth2_token_endpoint)
@@ -134,7 +134,7 @@ class OauthAuthentication: NSObject, URLSessionDelegate, URLSessionTaskDelegate 
     
     // MARK : get authData by refreshToken
     
-    func refreshTokenAuthRequest(_ url: URL, refreshToken: String, withCompletion completion: @escaping (_ data: Data?,_ httpResponse: HTTPURLResponse?, _ error: Error?) -> Void) {
+@objc    func refreshTokenAuthRequest(_ url: URL, refreshToken: String, withCompletion completion: @escaping (_ data: Data?,_ httpResponse: HTTPURLResponse?, _ error: Error?) -> Void) {
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -171,7 +171,7 @@ class OauthAuthentication: NSObject, URLSessionDelegate, URLSessionTaskDelegate 
     }
     
     
-    func getAuthDataBy(url: URL, refreshToken: String, withCompletion completion: @escaping (_ userCredDto: OCCredentialsDto? ,_ error: String?) -> Void)  {
+@objc    func getAuthDataBy(url: URL, refreshToken: String, withCompletion completion: @escaping (_ userCredDto: OCCredentialsDto? ,_ error: String?) -> Void)  {
         
         self.refreshTokenAuthRequest(url, refreshToken:refreshToken, withCompletion: { (data:Data?, httpResponse:HTTPURLResponse?, error:Error?) in
             
@@ -208,18 +208,6 @@ class OauthAuthentication: NSObject, URLSessionDelegate, URLSessionTaskDelegate 
             }
         })
     }
-    
-    
-    func isAccessTokenDateExpired(_ tokenDate: String?) ->Bool {
-        //TODO: compare dates
-        return true
-    }
-    
-//    if self.isAccessTokenDateExpired(self.user?.credDto.expiresIn) {
-//    
-//    } else {
-//    
-//    }
 
     
 }
